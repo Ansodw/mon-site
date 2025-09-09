@@ -26,6 +26,7 @@ exports.handler = async (event) => {
       // Les URL de redirection après le paiement
       success_url: `${process.env.URL}/confirmation.html`, // URL du site déployé
       cancel_url: `${process.env.URL}/panier.html`,
+      invoice_creation: { enabled: true },
     });
 
     // On renvoie l'ID de la session au front-end

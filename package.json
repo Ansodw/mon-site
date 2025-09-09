@@ -4,6 +4,7 @@
   "description": "Boutique en ligne avec Stripe",
   "main": "script.js",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.5",
     "stripe": "^8.222.0"
   }
 }
