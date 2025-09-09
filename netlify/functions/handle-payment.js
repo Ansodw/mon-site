@@ -23,7 +23,7 @@ exports.handler = async ({ body, headers }) => {
       const msg = {
         to: customerEmail,
         // REMPLACE PAR TON ADRESSE VÉRIFIÉE SUR SENDGRID
-        from: 'ton-adresse-verifiee@email.com', 
+        from: 'anesskhedim@gmail.com', 
         subject: `Merci ! Confirmation de votre commande #${orderNumber}`,
         html: `
           <div style="font-family: Arial, sans-serif; color: #333;">
