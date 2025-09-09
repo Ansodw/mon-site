@@ -1,0 +1,388 @@
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header */
+header {
+  background-color: #fff;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav a {
+  margin-left: 25px;
+  font-size: 16px;
+  color: #555;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+#cart-count {
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+
+/* Intro */
+.intro {
+  text-align: center;
+  padding: 80px 20px 40px;
+  background-color: #f9f9f9;
+}
+
+.intro h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.intro p {
+  color: #666;
+  font-size: 18px;
+}
+
+/* Filtres */
+.filtres {
+  text-align: center;
+  margin: 40px 0 20px;
+}
+
+.filtres button {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 15px;
+}
+
+.filtres button:hover, .filtres button.active {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 40px;
+}
+
+.product-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.product-card h3 {
+  font-size: 20px;
+  margin: 15px 0 8px;
+}
+
+.price {
+  color: #222;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.product-card button {
+    background-color: #222;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.product-card button:hover {
+    background-color: #555;
+}
+
+
+/* Panier Page */
+.panier-page {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.panier-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.panier-item-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.panier-item-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.panier-item-details .item-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.item-quantity input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.item-quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.remove-item {
+    color: #ff4d4d;
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.panier-summary {
+    margin-top: 30px;
+    text-align: right;
+}
+
+#total-panier {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.panier-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.action-button, .checkout-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.action-button {
+    background-color: #ddd;
+    color: #333;
+}
+
+.action-button:hover {
+    background-color: #ccc;
+}
+
+.checkout-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+
+/* Paiement & Contact Pages */
+.paiement-page, .contact-page {
+  max-width: 600px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.checkout-container, .contact-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.checkout-container h2, .contact-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: -5px;
+}
+
+form input, form textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.confirmation-message {
+  background-color: #e6ffe6;
+  padding: 20px;
+  border: 1px solid #b2ffb2;
+  border-radius: 6px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.button-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.button-link:hover {
+    background-color: #0056b3;
+}
+
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s;
+    z-index: 2000;
+}
+
+.notification.show {
+    opacity: 1;
+    visibility: visible;
+    bottom: 30px;
+}
+
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 14px;
+  color: #999;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 40px;
+}

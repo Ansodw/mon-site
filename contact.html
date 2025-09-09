@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Ma Boutique</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Ma Boutique</h1>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="index.html#produits">Produits</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="contact-page">
+    <section class="contact-container">
+      <h2>Contactez-nous</h2>
+      <p>Une question ? Une demande personnalisée ? Laissez-nous un message.</p>
+
+      <form class="contact-form" action="https://formspree.io/f/xkgvyrza" method="POST">
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit">Envoyer</button>
+      </form>
+      </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ma Boutique</p>
+  </footer>
+
+  </body>
+</html>
