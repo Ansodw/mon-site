@@ -1,15 +1,9 @@
 {
-  "name": "mon-site",
+  "name": "ma-boutique",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "description": "Boutique en ligne avec Stripe",
+  "main": "script.js",
   "dependencies": {
-    "stripe": "^18.5.0"
+    "stripe": "^8.222.0"
   }
 }
