@@ -3,20 +3,18 @@ backend:
   branch: main
 
 media_folder: "images"
-public_folder: "/images"
+public_folder: "images"
 
 collections:
   - name: "produits"
     label: "Produits"
-    file: "_data/produits.json" # Le CMS va maintenant éditer ce seul fichier
-    extension: "json"
-    format: "json"
+    folder: "_produits"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Identifiant (slug, ex: bague-doree)", name: "slug", widget: "string" }
-      - { label: "Nom du produit", name: "nom", widget: "string" }
-      - { label: "Description", name: "description", widget: "markdown" }
+      - { label: "Titre (slug)", name: "slug", widget: "string" }
+      - { label: "Nom", name: "nom", widget: "string" }
       - { label: "Prix", name: "prix", widget: "number" }
       - { label: "Image", name: "image", widget: "image" }
+      - { label: "Description", name: "description", widget: "markdown" }
       - { label: "Catégorie", name: "categorie", widget: "select", options: ["bijoux", "vetements"] }
