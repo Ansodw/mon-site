@@ -1,14 +1,18 @@
 // script.js
 
+// Variable globale qui contiendra nos produits une fois chargés
 let produits = {};
 
+// Écouteur principal qui se lance une fois que la page est prête
 document.addEventListener('DOMContentLoaded', async () => {
+    // On charge les produits depuis le fichier JSON créé par le CMS
     try {
-        // On charge les produits depuis le nouveau fichier JSON
-        const response = await fetch('/_data/produits.json'); // Nouveau chemin
+        const response = await fetch('/produits.json'); // C'est ici qu'on va chercher les produits
         const produitsData = await response.json();
-
+        
+        // On transforme le tableau en objet pour que le reste du code fonctionne
         produitsData.forEach(p => {
+            // On utilise le "slug" comme clé unique pour chaque produit
             produits[p.slug] = p;
         });
 
@@ -16,11 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Erreur de chargement des produits:", error);
     }
 
-    // Le reste de ton code de chargement
+    // --- Lancement des fonctions une fois les produits chargés ---
     updateCartCount();
 
     if (document.querySelector('.product-grid')) {
-        afficherTousLesProduits(); // On change la fonction d'affichage
+        afficherTousLesProduits();
         setupAnimations();
     }
     if (document.getElementById('contenu-panier')) {
@@ -30,6 +34,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         afficherPageProduit();
     }
 });
+
+
+// --- FONCTION QUI AFFICHE LES PRODUITS SUR L'ACCUEIL ---
+
+function afficherTousLesProduits() {
+    const container = document.getElementById('product-grid-container');
+    if (!container) return;
+    
+    container.innerHTML = ''; // On vide la grille
+    
+    // On boucle sur chaque produit chargé et on crée sa carte
+    for (const slug in produits) {
+        const p = produits[slug];
+        const productCardHTML = `
+            <a href="produit.html?id=${slug}" class="product-card-link">
+                <div class="product-card" data-category="${p.categorie}">
+                    <img src="/${p.image}" alt="${p.nom}" />
+                    <h3>${p.nom}</h3>
+                    <p class="price">${p.prix.toFixed(2)} €</p>
+                    <button onclick="event.preventDefault(); ajouterAuPanier('${p.nom.replace(/'/g, "\\'")}', ${p.prix}, '/${p.image}')">Ajouter au panier</button>
+                </div>
+            </a>
+        `;
+        container.innerHTML += productCardHTML;
+    }
+}
+
+
+// --- FONCTION DE LA PAGE PRODUIT ---
+
+function afficherPageProduit() {
+  const productDetailContainer = document.getElementById('product-detail');
+  if (!productDetailContainer) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+  const produit = produits[productId];
+
+  if (produit) {
+    document.title = produit.nom + ' - Ma Boutique';
+    productDetailContainer.innerHTML = `
+      <div class="product-image-container">
+        <img src="/${produit.image}" alt="${produit.nom}" />
+      </div>
+      <div class="product-info-container">
+        <h1>${produit.nom}</h1>
+        <p class="product-page-price">${produit.prix.toFixed(2)} €</p>
+        <p class="product-description">${produit.description}</p>
+        <button class="add-to-cart-btn" onclick="ajouterAuPanier('${produit.nom.replace(/'/g, "\\'")}', ${produit.prix}, '/${produit.image}')">Ajouter au panier</button>
+      </div>
+    `;
+  } else {
+    productDetailContainer.innerHTML = '<h2>Oups !</h2><p>Ce produit n\'a pas été trouvé. <a href="index.html" class="button-link">Retour à l\'accueil</a></p>';
+  }
+}
 
 // --- FONCTIONS DU PANIER ET DE LA BOUTIQUE ---
 
