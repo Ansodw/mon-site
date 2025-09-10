@@ -61,7 +61,6 @@ nav a:hover {
     font-size: 12px;
 }
 
-
 /* Intro */
 .intro {
   text-align: center;
@@ -114,14 +113,14 @@ nav a:hover {
   border: 1px solid #eee;
   border-radius: 8px;
   text-align: center;
-  transition: all 0.3s;
   overflow: hidden;
   background-color: #fff;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .product-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
+  transform: translateY(-5px) scale(1.02);
 }
 
 .product-card img {
@@ -156,7 +155,6 @@ nav a:hover {
 .product-card button:hover {
     background-color: #555;
 }
-
 
 /* Panier Page */
 .panier-page {
@@ -268,7 +266,6 @@ nav a:hover {
     background-color: #218838;
 }
 
-
 /* Paiement & Contact Pages */
 .paiement-page, .contact-page {
   max-width: 600px;
@@ -353,7 +350,6 @@ form button:hover {
     background-color: #0056b3;
 }
 
-
 /* Notification */
 .notification {
     position: fixed;
@@ -376,7 +372,6 @@ form button:hover {
     bottom: 30px;
 }
 
-
 /* Footer */
 footer {
   text-align: center;
@@ -385,8 +380,25 @@ footer {
   color: #999;
   border-top: 1px solid #e0e0e0;
   margin-top: 40px;
+}
 
-  /* style.css (à la fin) */
+/* --- NOUVEAUX STYLES --- */
+
+/* Liens des cartes produit */
+a.product-card-link {
+  text-decoration: none;
+  color: inherit;
+  /* Styles pour l'animation */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Animation à l'apparition */
+a.product-card-link.is-visible {
+  opacity: 1; 
+  transform: translateY(0); 
+}
 
 /* Page de détail produit */
 .product-page-container {
@@ -395,6 +407,7 @@ footer {
   margin: 60px auto;
   padding: 20px;
   gap: 40px;
+  align-items: flex-start;
 }
 .product-image-container {
   flex: 1;
@@ -402,21 +415,23 @@ footer {
 .product-image-container img {
   width: 100%;
   border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 .product-info-container {
   flex: 1;
 }
 .product-info-container h1 {
-  font-size: 32px;
+  font-size: 36px;
   margin-bottom: 15px;
 }
 .product-page-price {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
 }
 .product-description {
+  font-size: 16px;
   line-height: 1.8;
   color: #666;
   margin-bottom: 30px;
@@ -433,9 +448,4 @@ footer {
 }
 .add-to-cart-btn:hover {
   background-color: #218838;
-}
-.product-card-link {
-  text-decoration: none;
-  color: inherit;
-}
 }

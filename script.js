@@ -28,24 +28,24 @@ const produits = {
   }
 };
 
-// Remplacez par VOTRE clé PUBLIABLE Stripe
-const stripe = Stripe('pk_test_51S5XjiJcEpPxg9V0UJ58OnsCXtmdIbBhKy4pn3FrYRoC5MNg3421xJnWQG6VpS7i6f3eIliPRRhATnmACz6uul0m00Pfsi1xgv');
-const checkoutButton = document.getElementById('checkout-button');
-
+// Écouteur principal qui se lance une fois que la page est prête
 document.addEventListener('DOMContentLoaded', () => {
+    // Fonctions à lancer sur toutes les pages
     updateCartCount();
+
+    // Fonctions spécifiques à certaines pages
+    if (document.querySelector('.product-grid')) {
+        setupAnimations();
+    }
     if (document.getElementById('contenu-panier')) {
         afficherPanier();
     }
-     // NOUVELLE LIGNE
     if (document.getElementById('product-detail')) {
         afficherPageProduit();
     }
-    const firstFilterButton = document.querySelector('.filtres button');
-    if(firstFilterButton) {
-        firstFilterButton.classList.add('active');
-    }
 });
+
+// --- FONCTIONS DU PANIER ET DE LA BOUTIQUE ---
 
 function ajouterAuPanier(nom, prix, image) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
@@ -62,46 +62,13 @@ function ajouterAuPanier(nom, prix, image) {
     updateCartCount();
 }
 
-function showNotification(message) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.classList.add('show');
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
-}
-
-function updateCartCount() {
-    let panier = JSON.parse(localStorage.getItem('panier')) || [];
-    const cartCount = document.getElementById('cart-count');
-    if (cartCount) {
-        cartCount.textContent = panier.reduce((total, item) => total + item.quantite, 0);
-    }
-}
-
-function filtrerProduits(categorie) {
-    const produits = document.querySelectorAll('.product-card');
-    produits.forEach(produit => {
-        const cat = produit.getAttribute('data-category');
-        produit.style.display = (categorie === 'tous' || cat === categorie) ? 'block' : 'none';
-    });
-
-    const buttons = document.querySelectorAll('.filtres button');
-    buttons.forEach(button => {
-        button.classList.remove('active');
-        if (button.getAttribute('onclick').includes(`'${categorie}'`)) {
-            button.classList.add('active');
-        }
-    });
-}
-
 function afficherPanier() {
     const panier = JSON.parse(localStorage.getItem('panier')) || [];
     const contenuPanier = document.getElementById('contenu-panier');
     const totalPanierEl = document.getElementById('total-panier');
     const panierContainer = document.getElementById('panier-container');
 
-    if (!contenuPanier) return; // Sécurité pour les autres pages
+    if (!contenuPanier) return;
 
     contenuPanier.innerHTML = '';
 
@@ -137,6 +104,14 @@ function afficherPanier() {
     totalPanierEl.textContent = `Total : ${total.toFixed(2)} €`;
 }
 
+function updateCartCount() {
+    let panier = JSON.parse(localStorage.getItem('panier')) || [];
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        cartCount.textContent = panier.reduce((total, item) => total + item.quantite, 0);
+    }
+}
+
 function changerQuantite(index, delta) {
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
     if (panier[index]) {
@@ -164,71 +139,45 @@ function viderPanier() {
     updateCartCount();
 }
 
-// ### CORRECTION : Ce bloc est maintenant à l'extérieur de viderPanier() ###
-if (checkoutButton) {
-  checkoutButton.addEventListener('click', async () => {
-    checkoutButton.disabled = true;
-    checkoutButton.textContent = 'Chargement...';
-    const panier = JSON.parse(localStorage.getItem('panier')) || [];
-
-    try {
-      const response = await fetch('/.netlify/functions/create-checkout', {
-        // ... (le reste du code)
-      }).then(res => res.json());
-
-      const result = await stripe.redirectToCheckout({
-        sessionId: response.id,
-      });
-
-      if (result.error) {
-        alert(result.error.message);
-        // On réactive le bouton en cas d'erreur
-        checkoutButton.disabled = false;
-        checkoutButton.textContent = 'Valider la commande';
-      }
-    } catch (error) {
-      console.error("Erreur lors du checkout:", error);
-      // On réactive aussi le bouton ici
-      checkoutButton.disabled = false;
-      checkoutButton.textContent = 'Valider la commande';
-    }
-    
-    // On appelle notre fonction back-end
-    const response = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ items: panier }),
-    }).then(res => res.json());
-
-    // On redirige le client vers la page de paiement Stripe
-    const result = await stripe.redirectToCheckout({
-      sessionId: response.id,
+function filtrerProduits(categorie) {
+    const produits = document.querySelectorAll('.product-card');
+    produits.forEach(produit => {
+        const cat = produit.getAttribute('data-category');
+        produit.style.display = (categorie === 'tous' || cat === categorie) ? 'block' : 'none';
     });
 
-    if (result.error) {
-      alert(result.error.message);
-    }
-  });
+    const buttons = document.querySelectorAll('.filtres button');
+    buttons.forEach(button => {
+        button.classList.remove('active');
+        if (button.getAttribute('onclick').includes(`'${categorie}'`)) {
+            button.classList.add('active');
+        }
+    });
+}
 
-  // script.js (à la fin)
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    if(!notification) return;
+    notification.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+
+// --- FONCTION DE LA PAGE PRODUIT ---
 
 function afficherPageProduit() {
   const productDetailContainer = document.getElementById('product-detail');
-  
-  // On récupère l'ID du produit depuis l'URL (ex: ?id=bague-doree)
+  if (!productDetailContainer) return;
+
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
-  
-  // On trouve le bon produit dans notre catalogue
   const produit = produits[productId];
-  
-  if (produit) {
-    // On change le titre de la page
-    document.title = produit.nom + ' - Ma Boutique';
 
-    // On crée le HTML pour la page
+  if (produit) {
+    document.title = produit.nom + ' - Ma Boutique';
     productDetailContainer.innerHTML = `
       <div class="product-image-container">
         <img src="${produit.image}" alt="${produit.nom}" />
@@ -237,11 +186,72 @@ function afficherPageProduit() {
         <h1>${produit.nom}</h1>
         <p class="product-page-price">${produit.prix.toFixed(2)} €</p>
         <p class="product-description">${produit.description}</p>
-        <button class="add-to-cart-btn" onclick="ajouterAuPanier('${produit.nom}', ${produit.prix}, '${produit.image}')">Ajouter au panier</button>
+        <button class="add-to-cart-btn" onclick="ajouterAuPanier('${produit.nom.replace(/'/g, "\\'")}', ${produit.prix}, '${produit.image}')">Ajouter au panier</button>
       </div>
     `;
   } else {
-    productDetailContainer.innerHTML = '<p>Oups ! Ce produit n\'a pas été trouvé.</p>';
+    productDetailContainer.innerHTML = '<h2>Oups !</h2><p>Ce produit n\'a pas été trouvé. <a href="index.html" class="button-link">Retour à l\'accueil</a></p>';
   }
 }
+
+// --- ANIMATIONS ---
+
+function setupAnimations() {
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // On cible le parent (le lien) pour l'animation
+        entry.target.parentElement.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const productCards = document.querySelectorAll('.product-card');
+  productCards.forEach(card => {
+    observer.observe(card);
+  });
+}
+
+// --- PAIEMENT STRIPE ---
+
+// On ne déclare la variable stripe que si on est sur la page du panier
+if (document.getElementById('checkout-button')) {
+    const stripe = Stripe('pk_test_51S5XjiJcEpPxg9V0UJ58OnsCXtmdIbBhKy4pn3FrYRoC5MNg3421xJnWQG6VpS7i6f3eIliPRRhATnmACz6uul0m00Pfsi1xgv');
+    const checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', async () => {
+        checkoutButton.disabled = true;
+        checkoutButton.textContent = 'Chargement...';
+        
+        const panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+        try {
+            const response = await fetch('/.netlify/functions/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: panier }),
+            }).then(res => res.json());
+
+            if (!response.id) {
+                throw new Error('La réponse du serveur ne contient pas d\'ID de session.');
+            }
+
+            const result = await stripe.redirectToCheckout({ sessionId: response.id });
+
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
+        } catch (error) {
+            console.error("Erreur lors du checkout:", error);
+            checkoutButton.disabled = false;
+            checkoutButton.textContent = 'Valider la commande';
+        }
+    });
 }
