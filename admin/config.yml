@@ -1,0 +1,19 @@
+backend:
+  name: git-gateway
+  branch: main # Assure-toi que c'est bien ta branche principale sur GitHub
+
+media_folder: "images" # Le dossier où les images seront uploadées
+public_folder: "/images" # Le chemin public pour les images
+
+collections:
+  - name: "produit" # Nom de la collection
+    label: "Produits" # Ce qui est affiché dans le CMS
+    folder: "_produits" # Le dossier où les fichiers des produits seront créés
+    create: true # Autoriser la création de nouveaux produits
+    slug: "{{slug}}" # Le nom du fichier sera le titre
+    fields: # Les champs pour chaque produit
+      - { label: "Nom du produit", name: "nom", widget: "string" }
+      - { label: "Description", name: "description", widget: "markdown" }
+      - { label: "Prix", name: "prix", widget: "number" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Catégorie", name: "categorie", widget: "select", options: ["bijoux", "vetements"] }

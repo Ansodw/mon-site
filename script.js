@@ -1,40 +1,27 @@
 // script.js
 
-// NOTRE CATALOGUE DE PRODUITS
-const produits = {
-  'bague-doree': {
-    nom: 'Bague Dorée',
-    prix: 29.90,
-    image: 'images/bague.jpg',
-    description: 'Une magnifique bague dorée, parfaite pour toutes les occasions. Fabriquée avec des matériaux de haute qualité, elle ne manquera pas de faire tourner les têtes.'
-  },
-  'collier-pendentifs': {
-    nom: 'Collier Pendentifs',
-    prix: 49.00,
-    image: 'images/collier.jpg',
-    description: 'Ce collier élégant avec ses multiples pendentifs est la touche finale parfaite pour votre tenue. Un design unique et moderne.'
-  },
-  'bracelet-perles': {
-    nom: 'Bracelet Perles',
-    prix: 19.90,
-    image: 'images/bracelet.jpg',
-    description: 'Un bracelet délicat composé de perles fines et de charms en forme d\'étoile. Idéal pour un look bohème-chic.'
-  },
-  'robe-ete': {
-    nom: 'Robe d\'Été',
-    prix: 89.90,
-    image: 'images/robe.jpg',
-    description: 'Légère et fluide, cette robe d\'été rose est parfaite pour les journées ensoleillées. Son tissu en soie vous gardera au frais avec style.'
-  }
-};
+let produits = {}; // On déclare la variable qui va contenir nos produits
 
-// Écouteur principal qui se lance une fois que la page est prête
-document.addEventListener('DOMContentLoaded', () => {
-    // Fonctions à lancer sur toutes les pages
+document.addEventListener('DOMContentLoaded', async () => {
+    // On charge les produits depuis un fichier JSON
+    try {
+        const response = await fetch('/produits.json');
+        const produitsData = await response.json();
+        
+        // On transforme le tableau en objet pour que le reste du code fonctionne
+        produitsData.forEach(p => {
+            produits[p.slug] = p;
+        });
+
+    } catch (error) {
+        console.error("Erreur de chargement des produits:", error);
+    }
+
+    // Le reste de ton code de chargement
     updateCartCount();
 
-    // Fonctions spécifiques à certaines pages
     if (document.querySelector('.product-grid')) {
+        afficherTousLesProduits(); // On change la fonction d'affichage
         setupAnimations();
     }
     if (document.getElementById('contenu-panier')) {
@@ -254,4 +241,26 @@ if (document.getElementById('checkout-button')) {
             checkoutButton.textContent = 'Valider la commande';
         }
     });
+
+    function afficherTousLesProduits() {
+    const container = document.getElementById('product-grid-container');
+    if (!container) return;
+
+    container.innerHTML = ''; // On vide la grille
+
+    for (const slug in produits) {
+        const p = produits[slug];
+        const productCardHTML = `
+            <a href="produit.html?id=${slug}" class="product-card-link">
+                <div class="product-card" data-category="${p.categorie}">
+                    <img src="${p.image}" alt="${p.nom}" />
+                    <h3>${p.nom}</h3>
+                    <p class="price">${p.prix.toFixed(2)} €</p>
+                    <button onclick="event.preventDefault(); ajouterAuPanier('${p.nom.replace(/'/g, "\\'")}', ${p.prix}, '${p.image}')">Ajouter au panier</button>
+                </div>
+            </a>
+        `;
+        container.innerHTML += productCardHTML;
+    }
+}
 }

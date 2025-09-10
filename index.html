@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,43 +33,7 @@
       <button onclick="filtrerProduits('vetements')">Vêtements</button>
     </section>
 
-    <section class="product-grid">
-
-  <a href="produit.html?id=bague-doree" class="product-card-link">
-    <div class="product-card" data-category="bijoux">
-      <img src="images/bague.jpg" alt="Bague dorée élégante" />
-      <h3>Bague Dorée</h3>
-      <p class="price">29,90 €</p>
-      <button onclick="event.preventDefault(); ajouterAuPanier('Bague Dorée', 29.90, 'images/bague.jpg')">Ajouter au panier</button>
-    </div>
-  </a>
-
-  <a href="produit.html?id=collier-pendentifs" class="product-card-link">
-    <div class="product-card" data-category="bijoux">
-      <img src="images/collier.jpg" alt="Collier avec pendentifs" />
-      <h3>Collier Pendentifs</h3>
-      <p class="price">49,00 €</p>
-      <button onclick="event.preventDefault(); ajouterAuPanier('Collier Pendentifs', 49.00, 'images/collier.jpg')">Ajouter au panier</button>
-    </div>
-  </a>
-
-  <a href="produit.html?id=bracelet-perles" class="product-card-link">
-    <div class="product-card" data-category="bijoux">
-      <img src="images/bracelet.jpg" alt="Bracelet de perles et étoiles" />
-      <h3>Bracelet Perles</h3>
-      <p class="price">19,90 €</p>
-      <button onclick="event.preventDefault(); ajouterAuPanier('Bracelet Perles', 19.90, 'images/bracelet.jpg')">Ajouter au panier</button>
-    </div>
-  </a>
-
-  <a href="produit.html?id=robe-ete" class="product-card-link">
-    <div class="product-card" data-category="vetements">
-      <img src="images/robe.jpg" alt="Robe rose légère" />
-      <h3>Robe d'Été</h3>
-      <p class="price">89,90 €</p>
-      <button onclick="event.preventDefault(); ajouterAuPanier('Robe d\'Été', 89.90, 'images/robe.jpg')">Ajouter au panier</button>
-    </div>
-  </a>
+<section class="product-grid" id="product-grid-container">
 
 </section>
   </main>
