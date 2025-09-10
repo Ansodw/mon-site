@@ -1,20 +1,2 @@
 [functions]
   directory = "netlify/functions"
-
-  [build.processing]
-  [build.processing.html]
-    pretty_urls = true
-  [build.processing.css]
-    bundle = true
-    minify = true
-  [build.processing.js]
-    bundle = true
-    minify = true
-
-[[plugins]]
-package = "netlify-plugin-json-from-yaml"
-  [plugins.inputs]
-    # Le chemin vers les fichiers YAML/Markdown créés par le CMS
-    source = "_produits"
-    # Le fichier JSON de sortie
-    target = "produits.json"

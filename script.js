@@ -1,14 +1,13 @@
 // script.js
 
-let produits = {}; // On déclare la variable qui va contenir nos produits
+let produits = {};
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // On charge les produits depuis un fichier JSON
     try {
-        const response = await fetch('/produits.json');
+        // On charge les produits depuis le nouveau fichier JSON
+        const response = await fetch('/_data/produits.json'); // Nouveau chemin
         const produitsData = await response.json();
-        
-        // On transforme le tableau en objet pour que le reste du code fonctionne
+
         produitsData.forEach(p => {
             produits[p.slug] = p;
         });

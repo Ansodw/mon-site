@@ -1,17 +1,20 @@
 backend:
   name: git-gateway
-  branch: main # Assure-toi que c'est bien ta branche principale sur GitHub
+  branch: main
 
-media_folder: "images" # Le dossier où les images seront uploadées
-public_folder: "/images" # Le chemin public pour les images
+media_folder: "images"
+public_folder: "/images"
 
 collections:
-  - name: "produit" # Nom de la collection
-    label: "Produits" # Ce qui est affiché dans le CMS
-    folder: "_produits" # Le dossier où les fichiers des produits seront créés
-    create: true # Autoriser la création de nouveaux produits
-    slug: "{{slug}}" # Le nom du fichier sera le titre
-    fields: # Les champs pour chaque produit
+  - name: "produits"
+    label: "Produits"
+    file: "_data/produits.json" # Le CMS va maintenant éditer ce seul fichier
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Identifiant (slug, ex: bague-doree)", name: "slug", widget: "string" }
       - { label: "Nom du produit", name: "nom", widget: "string" }
       - { label: "Description", name: "description", widget: "markdown" }
       - { label: "Prix", name: "prix", widget: "number" }
